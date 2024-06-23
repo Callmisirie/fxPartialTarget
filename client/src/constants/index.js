@@ -39,35 +39,10 @@ import {
 export const navigation = [
   {
     id: "0",
-    title: "Home",
-    hash: "#hero",
-    url: "/",
-  },
-  {
-    id: "1",
     title: "Targets",
     hash: "#targets",
     url: "/",
   },
-  // {
-  //   id: "2",
-  //   title: "New account",
-  //   url: "/signup",
-  //   onlyMobile: true,
-  // },
-  // {
-  //   id: "3",
-  //   title: "Sign in",
-  //   url: "/login",
-  //   onlyMobile: true,
-  // },
-  // {
-  //   id: "4",
-  //   title: "Sign out",
-  //   url: "/",
-  //   out: "out",
-  //   onlyMobile: true,
-  // },
 ];
 
 export const heroIcons = [fitnessNutrition, fitness, fitnessFacilities, health];
@@ -293,12 +268,6 @@ export const socials = [
     id: "3",
     title: "Telegram",
     iconUrl: telegram,
-    url: "#",
-  },
-  {
-    id: "4",
-    title: "Facebook",
-    iconUrl: facebook,
     url: "#",
   },
 ];

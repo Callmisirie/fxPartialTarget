@@ -7,14 +7,10 @@ import MenuSvg from "../assets/svg/MenuSvg";
 import { HamburgerMenu } from "./design/Header";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { HashLink } from "react-router-hash-link";
-import { useCookies } from "react-cookie";
 
 const Header = () => {
   const { pathname, hash } = useLocation();
   const [openNavigation, setOpenNavigation] = useState(false);
-  const [cookies, setCookies] = useCookies(["userAccess_token"]);
-  const [userIDCookies, setUserIDCookies] = useCookies(["userID"]);
 
   useEffect(() => {
     if (openNavigation) {
@@ -28,26 +24,12 @@ const Header = () => {
     };
   }, [openNavigation]);
 
-  useEffect(() => {
-    if (cookies.userAccess_token && userIDCookies.userID) {
-      setCookies("userAccess_token", cookies.userAccess_token);
-      setUserIDCookies("userID", userIDCookies.userID);
-    } else {
-      setCookies("userAccess_token", null);
-      setUserIDCookies("userID", null);
-    }
-  }, [cookies, userIDCookies]);
-
   const toggleNavigation = () => {
     setOpenNavigation(!openNavigation);
   };
 
-  const handleClick = (out) => {
-    if (out === "out") {
-      setCookies("userAccess_token", null);
-      setUserIDCookies("userID", null);
-      window.scrollTo(0, 0);
-    }
+  const handleClick = () => {
+    window.scrollTo(0, 0);
     if (!openNavigation) return;
 
     enablePageScroll();
@@ -61,8 +43,6 @@ const Header = () => {
     enablePageScroll();
     setOpenNavigation(false);
   };
-
-  const loops = ["/signup", "/login"];
 
   return (
     <div
@@ -87,79 +67,24 @@ const Header = () => {
             {navigation.map((item) => {
               if (item.hash) {
                 return (
-                  <HashLink
-                    smooth
+                  <Link
                     key={item.id}
-                    to={pathname === "/" ? item.hash : item.url + item.hash}
-                    onClick={() => handleClick(item?.out)}
+                    to={"/"}
+                    onClick={() => handleClick()}
                     className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
                       item.onlyMobile ? "lg:hidden" : ""
                     } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
-                      item.hash === hash ? "z-2 lg:text-n-1" : "lg:text-n-1/50"
+                      item.url === hash ? "z-2 lg:text-n-1" : "lg:text-n-1/50"
                     } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
                   >
                     {item.title}
-                  </HashLink>
+                  </Link>
                 );
-              }
-              if (loops.includes(item.url)) {
-                return !cookies.userAccess_token ? (
-                  <Link
-                    key={item.id}
-                    to={item.url}
-                    onClick={() => handleClick(item?.out)}
-                    className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
-                      item.onlyMobile ? "lg:hidden" : ""
-                    } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
-                      item.url === pathname
-                        ? "z-2 lg:text-n-1"
-                        : "lg:text-n-1/50"
-                    } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
-                  >
-                    {item.title}
-                  </Link>
-                ) : null;
-              }
-              if (item.out === "out") {
-                return cookies.userAccess_token ? (
-                  <Link
-                    key={item.id}
-                    to={item.url}
-                    onClick={() => handleClick(item?.out)}
-                    className={`block relative font-code text-2xl uppercase text-n-1 transition-colors hover:text-color-1 ${
-                      item.onlyMobile ? "lg:hidden" : ""
-                    } px-6 py-6 md:py-8 lg:-mr-0.25 lg:text-xs lg:font-semibold ${
-                      item.url === pathname
-                        ? "z-2 lg:text-n-1"
-                        : "lg:text-n-1/50"
-                    } lg:leading-5 lg:hover:text-n-1 xl:px-12`}
-                  >
-                    {item.title}
-                  </Link>
-                ) : null;
               }
             })}
           </div>
           <HamburgerMenu />
         </nav>
-        {/* {!cookies.userAccess_token ? (
-          <>
-            <Link
-              to="/signup"
-              className="button hidden mr-8 text-n-1/50 transition-colors hover:text-n-1 lg:block"
-            >
-              New account
-            </Link>
-            <Button className="hidden lg:flex" href="/login">
-              Sign in
-            </Button>
-          </>
-        ) : null}
-        {cookies.userAccess_token ? (
-          <Button className="hidden lg:flex" href="/" out="out">
-            Sign out
-          </Button>
-        ) : null} */}
         <Button
           className="ml-auto lg:hidden"
           px="px-3"

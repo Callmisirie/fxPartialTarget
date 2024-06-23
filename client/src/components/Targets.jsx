@@ -1,16 +1,15 @@
 import Section from "./Section";
-import Heading from "./Heading";
 import { benefits } from "../constants";
-import Arrow from "../assets/svg/Arrow";
 import { GradientLight } from "./design/Benefits";
 import ClipPath from "../assets/svg/ClipPath";
 import { useState, useEffect } from "react";
-import { addButton, deleteButton, fitnessHeart, exchangeRate } from "../assets";
+import { addButton, deleteButton } from "../assets";
 import Input from "./Input";
 import partialTP from "../partialCalc";
 
 const Ideas = () => {
   const [goals, setGoals] = useState([]);
+  const [goalInstrument, setGoalInstrument] = useState("");
   const [goalLotSize, setGoalLotSize] = useState("");
   const [goalPartialTPs, setGoalPartialTPs] = useState([""]);
   const [goalFinalTP, setGoalFinalTP] = useState("");
@@ -38,10 +37,11 @@ const Ideas = () => {
       Number(goalLotSize)
     );
 
-    const newGoal = { targets };
+    const newGoal = { instrument: goalInstrument, targets };
     const updatedGoals = [...goals, newGoal];
     setGoals(updatedGoals);
     localStorage.setItem("goals", JSON.stringify(updatedGoals));
+    setGoalInstrument("");
     setGoalLotSize("");
     setGoalPartialTPs([""]);
     setGoalFinalTP("");
@@ -70,16 +70,12 @@ const Ideas = () => {
 
   return (
     <Section id="targets" customPaddings="p-0">
-      <div className="container relative z-2 mt-10 lg:mt-5">
-        <Heading
-          className="md:max-w-md lg:max-w-2xl"
-          title="Set Targets, Crush Them, and Set More"
-        />
+      <div className="container relative z-2 mt-10 lg:mt-5 min-h-screen">
         <div className="flex flex-wrap gap-10 mb-10">
           {goals.length > 0 &&
             goals.map((goal, index) => (
               <div
-                className="block relative 
+                className="flex relative justify-center items-start
                 p-0.5 bg-no-repeat bg-[length:100%_100%] md:max-w-[24rem] 
                 border-2 border-n-4 rounded-s-[2rem] rounded-e-[3rem] overflow-hidden"
                 key={index}
@@ -88,36 +84,35 @@ const Ideas = () => {
                   onClick={() => {
                     handleDeleteGoal(index);
                   }}
-                  className="cursor-pointer absolute top-[12%] left-[70%] z-10"
+                  className="cursor-pointer absolute top-[6%] left-[78%] z-10"
                 >
                   <img
-                    width={48}
-                    height={48}
+                    width={24}
+                    height={24}
                     src={deleteButton}
                     alt="Delete Button"
                     className="cursor-pointer"
                   />
                 </button>
-                <div className="relative z-2 flex flex-col min-h-[22rem] p-[2.4rem] pointer-events-none">
-                  <div className="flex flex-col justify-center items-start gap-4 min-w-56">
+                <div className="relative z-2 flex flex-col px-[1.2rem] py-12 pointer-events-none">
+                  <div className="flex flex-col justify-center items-start gap-4 min-w-36">
+                    <div className="w-full">
+                      <h4 className="m-2 text-n-1/95 font-code uppercase font-bold">
+                        {goal.instrument}
+                      </h4>
+                      <div className="flex items-start border-t border-n-4/50 w-full" />
+                    </div>
                     {goal.targets.map((target, index) => (
-                      <h5
-                        key={index}
-                        className="h5 my-2 font-code max-w-[12rem] whitespace-normal break-words"
-                      >
-                        {target}
-                      </h5>
+                      <>
+                        <h5
+                          key={index}
+                          className="text-xs mx-2 font-code max-w-[12rem]"
+                        >
+                          {target}
+                        </h5>
+                        <div className="flex items-start border-t border-n-6 w-full" />
+                      </>
                     ))}
-                  </div>
-
-                  <div className="flex items-start py-5 border-t border-n-6" />
-                  <div className="flex items-center mt-auto">
-                    <img
-                      src={exchangeRate}
-                      width={48}
-                      height={48}
-                      alt="Exchange Rate"
-                    />
                   </div>
                 </div>
                 {benefits[index % benefits.length].light && <GradientLight />}
@@ -151,14 +146,20 @@ const Ideas = () => {
               <div className="relative z-2 flex flex-col justify-center items-center min-h-[22rem] p-[1.2rem]">
                 <div className="flex flex-col justify-center items-center gap-3">
                   <Input
+                    handleChange={setGoalInstrument}
+                    value={goalInstrument}
+                    name="GoalInstrument"
+                    label="Instrument"
+                    type="text"
+                  />
+                  <Input
                     handleChange={setGoalLotSize}
                     value={goalLotSize}
                     name="goalLotSize"
                     label="Lot Size"
                   />
-
-                  <div>
-                    <label className="font-mono text-xs uppercase text-n-2 font-semibold">
+                  <div className="">
+                    <label className="font-code text-xs uppercase text-n-2 font-semibold">
                       Partial TPs
                     </label>
                     <div className="w-full grid grid-cols-2 gap-2">
