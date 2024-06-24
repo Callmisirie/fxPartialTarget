@@ -11,7 +11,7 @@ const Footer = () => {
         <p className="caption text-n-4 lg:block">
           ©{new Date().getFullYear()}. All rights reserved.
         </p>
-        <ul className="flex gap-5 flex-wrap">
+        {/* <ul className="flex gap-5 flex-wrap">
           {socials.map((item) => (
             <a
               key={item.id}
@@ -23,7 +23,7 @@ const Footer = () => {
               <img src={item.iconUrl} width={16} height={16} alt={item.title} />
             </a>
           ))}
-        </ul>
+        </ul> */}
       </div>
     </Section>
   );

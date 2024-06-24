@@ -86,6 +86,8 @@ import deleteButton from "./deleteButton.svg";
 import fitnessHeart from "./fitnessHeart.svg";
 import exchangeRate from "./exchange-rate.svg";
 
+import clipboardCopy from "./clipboard-copy.svg";
+
 export {
   hamsa,
   check,
@@ -163,4 +165,5 @@ export {
   instagram,
   telegram,
   twitter,
+  clipboardCopy,
 };

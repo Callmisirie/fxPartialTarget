@@ -3,9 +3,10 @@ import { benefits } from "../constants";
 import { GradientLight } from "./design/Benefits";
 import ClipPath from "../assets/svg/ClipPath";
 import { useState, useEffect } from "react";
-import { addButton, deleteButton } from "../assets";
+import { addButton, deleteButton, clipboardCopy } from "../assets";
 import Input from "./Input";
 import partialTP from "../partialCalc";
+import { handleCopyClipboard } from "../actions/copyClipboard";
 
 const Ideas = () => {
   const [goals, setGoals] = useState([]);
@@ -24,6 +25,7 @@ const Ideas = () => {
   function handleAddGoal() {
     // Validate goalLotSize, goalPartialTPs, and goalFinalTP
     if (
+      !goalInstrument ||
       !goalLotSize ||
       goalPartialTPs.some((partial) => partial.trim() === "") ||
       !goalFinalTP
@@ -115,6 +117,20 @@ const Ideas = () => {
                     ))}
                   </div>
                 </div>
+                <button
+                  onClick={() => {
+                    handleCopyClipboard(goal.targets);
+                  }}
+                  className="cursor-pointer absolute bottom-[6%] right-[78%] z-10"
+                >
+                  <img
+                    width={24}
+                    height={24}
+                    src={clipboardCopy}
+                    alt="Clipboard Copy"
+                    className="cursor-pointer"
+                  />
+                </button>
                 {benefits[index % benefits.length].light && <GradientLight />}
                 <div
                   className="absolute inset-0.5 bg-n-8"
